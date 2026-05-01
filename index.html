@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yari Prisar u Walam</title>
+
+    <style>
+         :root {
+            --bg: #070816;
+            --card: rgba(255, 255, 255, 0.06);
+            --stroke: rgba(255, 255, 255, 0.12);
+            --a1: #22c55e;
+            --a2: #3b82f6;
+            --a3: #a855f7;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui;
+        }
+        
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at top, #8a7777, #0a1fa9);
+            color: white;
+        }
+        
+        .app {
+            width: 95%;
+            max-width: 820px;
+            background: var(--card);
+            border: 1px solid var(--stroke);
+            border-radius: 30px;
+            backdrop-filter: blur(22px);
+            padding: 22px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        
+        header img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 28px;
+        }
+        
+        h1 {
+            font-size: 26px;
+            margin-top: 10px;
+        }
+        
+        .panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .section {
+            font-size: 13px;
+            opacity: .85;
+        }
+        
+        .row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #111827, #284d84);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: .2s;
+        }
+        
+        button:hover {
+            transform: scale(1.04);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+        
+        .card {
+            margin-top: 14px;
+            padding: 18px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--stroke);
+        }
+        
+        .top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        
+        .progress {
+            width: 100%;
+            height: 9px;
+            background: #0f172a;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3));
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .answer button {
+            width: 100%;
+            margin-top: 8px;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 15px;
+            opacity: .8;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="app">
+
+        <header>
+            <img src="https://cdn.hcmb.app/epicplay-assets/trivia-quiz-game-online-og.jpg">
+            <h1>⚡ یاری پرسیار و وەڵام</h1>
+        </header>
+
+        <div id="menu" class="card panel">
+
+            <div class="section">📚 Category</div>
+            <div class="row">
+                <button onclick="start('math')">📐 Math</button>
+                <button onclick="start('programming')">💻 Code</button>
+                <button onclick="start('general')">🌍 General</button>
+            </div>
+
+            <div class="section">🎚 Difficulty</div>
+            <div class="row">
+                <button onclick="setDiff('easy')">🟢 Easy</button>
+                <button onclick="setDiff('medium')">🟡 Medium</button>
+                <button onclick="setDiff('hard')">🔴 Hard</button>
+            </div>
+
+        </div>
+
+        <div id="game" class="card hidden">
+
+            <div class="top">
+                <div>⏱ <span id="timer">10</span>s</div>
+                <div>⭐ <span id="score">0</span></div>
+            </div>
+
+            <div class="progress">
+                <div class="bar" id="bar"></div>
+            </div>
+
+            <h2 id="question"></h2>
+            <div id="answers" class="answer"></div>
+
+        </div>
+
+        <div id="result" class="card hidden">
+            <h2>🏆 Result</h2>
+            <p id="final"></p>
+            <button onclick="location.reload()">🔄 Play Again</button>
+        </div>
+
+        <div class="footer">
+            ✨ دروست کراوە لەلایەن Zrng Sarkan & Karoz Parez
+        </div>
+
+    </div>
+
+    <script>
+        const questions = {
+            math: {
+                easy: [{
+                    q: "2+2=?",
+                    a: ["3", "4", "5"],
+                    c: 1
+                }, {
+                    q: "5+3=?",
+                    a: ["6", "8", "9"],
+                    c: 1
+                }, {
+                    q: "10-4=?",
+                    a: ["5", "6", "7"],
+                    c: 1
+                }, {
+                    q: "7+1=?",
+                    a: ["7", "8", "9"],
+                    c: 1
+                }, {
+                    q: "9-2=?",
+                    a: ["6", "7", "8"],
+                    c: 1
+                }, {
+                    q: "6+3=?",
+                    a: ["8", "9", "10"],
+                    c: 1
+                }, {
+                    q: "3+3=?",
+                    a: ["5", "6", "7"],
+                    c: 1
+                }, {
+                    q: "8-3=?",
+                    a: ["4", "5", "6"],
+                    c: 1
+                }],
+
+                medium: [{
+                    q: "12*3=?",
+                    a: ["36", "32", "30"],
+                    c: 0
+                }, {
+                    q: "50-18=?",
+                    a: ["32", "30", "34"],
+                    c: 0
+                }, {
+                    q: "20*4=?",
+                    a: ["80", "60", "90"],
+                    c: 0
+                }, {
+                    q: "100/5=?",
+                    a: ["20", "15", "25"],
+                    c: 0
+                }, {
+                    q: "15*3=?",
+                    a: ["45", "40", "50"],
+                    c: 0
+                }, {
+                    q: "60/6=?",
+                    a: ["10", "12", "8"],
+                    c: 0
+                }],
+
+                hard: [{
+                    q: "144/12=?",
+                    a: ["10", "12", "14"],
+                    c: 1
+                }, {
+                    q: "25*12=?",
+                    a: ["300", "250", "350"],
+                    c: 0
+                }, {
+                    q: "81/9=?",
+                    a: ["7", "9", "11"],
+                    c: 1
+                }, {
+                    q: "16*16=?",
+                    a: ["256", "225", "196"],
+                    c: 0
+                }, {
+                    q: "200/8=?",
+                    a: ["25", "20", "30"],
+                    c: 0
+                }]
+            },
+
+            programming: {
+                easy: [{
+                    q: "HTML is for?",
+                    a: ["Web", "Game", "AI"],
+                    c: 0
+                }, {
+                    q: "CSS is for?",
+                    a: ["Style", "Logic", "DB"],
+                    c: 0
+                }, {
+                    q: "JS is?",
+                    a: ["Language", "Food", "Car"],
+                    c: 0
+                }, {
+                    q: "Website runs in?",
+                    a: ["Browser", "CPU", "RAM"],
+                    c: 0
+                }, {
+                    q: "Frontend means?",
+                    a: ["UI", "Server", "Database"],
+                    c: 0
+                }],
+
+                medium: [{
+                    q: "JS runs in?",
+                    a: ["Browser", "Server", "Printer"],
+                    c: 0
+                }, {
+                    q: "PHP is?",
+                    a: ["Backend", "Frontend", "Game"],
+                    c: 0
+                }, {
+                    q: "Array starts at?",
+                    a: ["0", "1", "-1"],
+                    c: 0
+                }, {
+                    q: "HTTP is?",
+                    a: ["Protocol", "Program", "Game"],
+                    c: 0
+                }],
+
+                hard: [{
+                    q: "Node.js is?",
+                    a: ["Runtime", "Language", "Browser"],
+                    c: 0
+                }, {
+                    q: "API means?",
+                    a: ["Interface", "Game", "OS"],
+                    c: 0
+                }, {
+                    q: "SQL is for?",
+                    a: ["Database", "Design", "Music"],
+                    c: 0
+                }, {
+                    q: "OOP stands for?",
+                    a: ["Object Oriented Programming", "Only One Program", "Open Online Process"],
+                    c: 0
+                }]
+            },
+
+            general: {
+                easy: [{
+                    q: "Sun is?",
+                    a: ["Star", "Planet", "Moon"],
+                    c: 0
+                }, {
+                    q: "Water formula?",
+                    a: ["H2O", "CO2", "O2"],
+                    c: 0
+                }, {
+                    q: "Earth is?",
+                    a: ["Planet", "Star", "Gas"],
+                    c: 0
+                }, {
+                    q: "Sky color?",
+                    a: ["Blue", "Green", "Red"],
+                    c: 0
+                }, {
+                    q: "Fire is?",
+                    a: ["Hot", "Cold", "Ice"],
+                    c: 0
+                }],
+
+                medium: [{
+                    q: "Capital of Iraq?",
+                    a: ["Baghdad", "Erbil", "Basra"],
+                    c: 0
+                }, {
+                    q: "Continents?",
+                    a: ["7", "5", "6"],
+                    c: 0
+                }, {
+                    q: "Largest country?",
+                    a: ["Russia", "USA", "China"],
+                    c: 0
+                }, {
+                    q: "Oxygen symbol?",
+                    a: ["O", "Ox", "Og"],
+                    c: 0
+                }],
+
+                hard: [{
+                    q: "Largest ocean?",
+                    a: ["Pacific", "Atlantic", "Indian"],
+                    c: 0
+                }, {
+                    q: "Heart chambers?",
+                    a: ["4", "2", "6"],
+                    c: 0
+                }, {
+                    q: "Fastest animal?",
+                    a: ["Cheetah", "Lion", "Horse"],
+                    c: 0
+                }, {
+                    q: "Speed of light?",
+                    a: ["299,792 km/s", "100,000 km/s", "50,000 km/s"],
+                    c: 0
+                }]
+            }
+        };
+
+        let diff = "easy";
+        let selected = [];
+        let i = 0;
+        let score = 0;
+        let timer;
+
+        function setDiff(d) {
+            diff = d;
+        }
+
+        function start(cat) {
+            selected = questions[cat][diff];
+            i = 0;
+            score = 0;
+            document.getElementById("menu").classList.add("hidden");
+            document.getElementById("game").classList.remove("hidden");
+            document.getElementById("score").innerText = 0;
+            show();
+        }
+
+        function show() {
+            if (i >= selected.length) {
+                end();
+                return;
+            }
+
+            let q = selected[i];
+            document.getElementById("question").innerText = q.q;
+            document.getElementById("answers").innerHTML = "";
+
+            q.a.forEach((a, idx) => {
+                let b = document.createElement("button");
+                b.innerText = a;
+                b.onclick = () => check(idx);
+                document.getElementById("answers").appendChild(b);
+            });
+
+            startTimer();
+            updateBar();
+        }
+
+        function startTimer() {
+            let s = 10;
+            document.getElementById("timer").innerText = s;
+
+            clearInterval(timer);
+            timer = setInterval(() => {
+                s--;
+                document.getElementById("timer").innerText = s;
+                if (s <= 0) {
+                    clearInterval(timer);
+                    i++;
+                    show();
+                }
+            }, 1000);
+        }
+
+        function check(x) {
+            clearInterval(timer);
+            if (x === selected[i].c) score++;
+            document.getElementById("score").innerText = score;
+            i++;
+            show();
+        }
+
+        function updateBar() {
+            document.getElementById("bar").style.width =
+                (i / selected.length) * 100 + "%";
+        }
+
+        function end() {
+            document.getElementById("game").classList.add("hidden");
+            document.getElementById("result").classList.remove("hidden");
+            document.getElementById("final").innerText =
+                score + " / " + selected.length;
+        }
+    </script>
+
+</body>
+
+</html>
