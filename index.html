@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ku" dir="rtl">
 
 <head>
     <meta charset="UTF-8">
@@ -8,12 +8,14 @@
 
     <style>
          :root {
-            --bg: #070816;
-            --card: rgba(255, 255, 255, 0.06);
-            --stroke: rgba(255, 255, 255, 0.12);
-            --a1: #22c55e;
-            --a2: #3b82f6;
-            --a3: #a855f7;
+            --bg1: #0f172a;
+            --bg2: #1e3a8a;
+            --card: rgba(255, 255, 255, 0.08);
+            --stroke: rgba(255, 255, 255, 0.14);
+            --green: #22c55e;
+            --blue: #3b82f6;
+            --purple: #a855f7;
+            --red: #ef4444;
         }
         
         * {
@@ -28,115 +30,177 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle at top, #8a7777, #0a1fa9);
+            padding: 20px;
             color: white;
+            background: linear-gradient(-45deg, #0f172a, #1d4ed8, #6d28d9, #111827);
+            background-size: 400% 400%;
+            animation: bg 12s ease infinite;
+        }
+        
+        @keyframes bg {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
         }
         
         .app {
-            width: 95%;
-            max-width: 820px;
+            width: 100%;
+            max-width: 850px;
             background: var(--card);
             border: 1px solid var(--stroke);
             border-radius: 30px;
-            backdrop-filter: blur(22px);
-            padding: 22px;
+            padding: 24px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, .4);
         }
         
         header {
             text-align: center;
-            margin-bottom: 18px;
         }
         
         header img {
             width: 100%;
-            height: 300px;
+            height: 280px;
             object-fit: cover;
-            border-radius: 28px;
+            border-radius: 25px;
         }
         
         h1 {
-            font-size: 26px;
-            margin-top: 10px;
+            margin-top: 15px;
+            font-size: 32px;
         }
         
-        .panel {
+        .lang-switch {
             display: flex;
-            flex-direction: column;
-            gap: 12px;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
         }
         
-        .section {
-            font-size: 13px;
-            opacity: .85;
-        }
-        
-        .row {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-        
-        button {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 14px;
-            cursor: pointer;
-            font-weight: bold;
-            color: white;
-            background: linear-gradient(135deg, #111827, #284d84);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: .2s;
-        }
-        
-        button:hover {
-            transform: scale(1.04);
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+        .lang-switch button {
+            flex: none;
+            padding: 10px 20px;
         }
         
         .card {
-            margin-top: 14px;
-            padding: 18px;
-            border-radius: 20px;
+            margin-top: 20px;
+            padding: 22px;
+            border-radius: 25px;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--stroke);
         }
         
-        .top {
-            display: flex;
-            justify-content: space-between;
+        .section {
             margin-bottom: 10px;
-            font-weight: bold;
+            opacity: .9;
         }
         
-        .progress {
-            width: 100%;
-            height: 9px;
-            background: #0f172a;
-            border-radius: 10px;
+        .row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        
+        button {
+            flex: 1;
+            border: none;
+            padding: 14px;
+            border-radius: 18px;
+            cursor: pointer;
+            color: white;
+            font-weight: bold;
+            background: linear-gradient(135deg, #111827, #2563eb);
+            transition: .3s;
+            position: relative;
             overflow: hidden;
         }
         
-        .bar {
+        button:hover {
+            transform: scale(1.04);
+            box-shadow: 0 0 18px rgba(59, 130, 246, .5);
+        }
+        
+        button::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
             height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, var(--a1), var(--a2), var(--a3));
+            background: rgba(255, 255, 255, .15);
+            transition: .4s;
+        }
+        
+        button:hover::after {
+            left: 100%;
         }
         
         .hidden {
             display: none;
         }
         
+        .top {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .progress {
+            width: 100%;
+            height: 10px;
+            background: #111827;
+            border-radius: 30px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, var(--green), var(--blue), var(--purple));
+            transition: width .5s ease;
+        }
+        
+        #question {
+            margin-bottom: 20px;
+            font-size: 25px;
+            line-height: 1.7;
+        }
+        
         .answer button {
             width: 100%;
-            margin-top: 8px;
+            margin-top: 10px;
         }
         
         .footer {
-            text-align: center;
             margin-top: 16px;
+            text-align: center;
             font-size: 15px;
-            opacity: .8;
+            opacity: .9;
+        }
+        
+        @media(max-width:600px) {
+            header img {
+                height: 180px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            #question {
+                font-size: 20px;
+            }
+            button {
+                font-size: 13px;
+            }
         }
     </style>
 </head>
@@ -146,24 +210,50 @@
     <div class="app">
 
         <header>
+
             <img src="https://cdn.hcmb.app/epicplay-assets/trivia-quiz-game-online-og.jpg">
-            <h1>⚡ یاری پرسیار و وەڵام</h1>
-        </header>
 
-        <div id="menu" class="card panel">
+            <h1 id="title">⚡ یاری پرسیار و وەڵام</h1>
 
-            <div class="section">📚 Category</div>
-            <div class="row">
-                <button onclick="start('math')">📐 Math</button>
-                <button onclick="start('programming')">💻 Code</button>
-                <button onclick="start('general')">🌍 General</button>
+            <div class="lang-switch">
+                <button onclick="setLang('ku')">🇹🇯 کوردی</button>
+                <button onclick="setLang('en')">🇺🇸 English</button>
             </div>
 
-            <div class="section">🎚 Difficulty</div>
+        </header>
+
+        <div id="menu" class="card">
+
+            <div class="section" id="catText">📚 بەش</div>
+
             <div class="row">
-                <button onclick="setDiff('easy')">🟢 Easy</button>
-                <button onclick="setDiff('medium')">🟡 Medium</button>
-                <button onclick="setDiff('hard')">🔴 Hard</button>
+                <button id="mathBtn" onclick="start('math')">
+                    📐 بیرکاری
+                </button>
+
+                <button id="codeBtn" onclick="start('programming')">
+                    💻 کۆد
+                </button>
+
+                <button id="generalBtn" onclick="start('general')">
+                    🌍 گشتی
+                </button>
+            </div>
+
+            <div class="section" id="diffText">🎚 ئاست</div>
+
+            <div class="row">
+                <button id="easyBtn" onclick="setDiff('easy')">
+                    🟢 ئاسان
+                </button>
+
+                <button id="mediumBtn" onclick="setDiff('medium')">
+                    🟡 مامناوەند
+                </button>
+
+                <button id="hardBtn" onclick="setDiff('hard')">
+                    🔴 سەخت
+                </button>
             </div>
 
         </div>
@@ -171,8 +261,15 @@
         <div id="game" class="card hidden">
 
             <div class="top">
-                <div>⏱ <span id="timer">10</span>s</div>
-                <div>⭐ <span id="score">0</span></div>
+
+                <div>
+                    ⏱ <span id="timer">10</span>s
+                </div>
+
+                <div>
+                    ⭐ <span id="score">0</span>
+                </div>
+
             </div>
 
             <div class="progress">
@@ -180,227 +277,582 @@
             </div>
 
             <h2 id="question"></h2>
+
             <div id="answers" class="answer"></div>
 
         </div>
 
         <div id="result" class="card hidden">
-            <h2>🏆 Result</h2>
+
+            <h2 id="resultText">🏆 ئەنجام</h2>
+
             <p id="final"></p>
-            <button onclick="location.reload()">🔄 Play Again</button>
+
+            <button id="againBtn" onclick="location.reload()">
+
+                🔄 دووبارە یاری بکە
+
+            </button>
+
         </div>
 
         <div class="footer">
-            ✨ دروست کراوە لەلایەن Zrng Sarkan Ghafur
+            ✨ (Zrng Sarkan Ghafur)دروست کراوە لە لایەن
         </div>
 
     </div>
 
     <script>
+        let lang = "ku";
+
+        const text = {
+
+            ku: {
+                title: "⚡ یاری پرسیار و وەڵام",
+                category: "📚 بەش",
+                difficulty: "🎚 ئاست",
+                math: "📐 بیرکاری",
+                code: "💻 کۆد",
+                general: "🌍 گشتی",
+                easy: "🟢 ئاسان",
+                medium: "🟡 مامناوەند",
+                hard: "🔴 سەخت",
+                result: "🏆 ئەنجام",
+                playAgain: "🔄 دووبارە یاری بکە"
+            },
+
+            en: {
+                title: "⚡ Quiz Game",
+                category: "📚 Category",
+                difficulty: "🎚 Difficulty",
+                math: "📐 Math",
+                code: "💻 Code",
+                general: "🌍 General",
+                easy: "🟢 Easy",
+                medium: "🟡 Medium",
+                hard: "🔴 Hard",
+                result: "🏆 Result",
+                playAgain: "🔄 Play Again"
+            }
+
+        };
+
         const questions = {
+
             math: {
+
                 easy: [{
-                    q: "2+2=?",
-                    a: ["3", "5", "4", "6"],
-                    c: 2
-                }, {
-                    q: "5+3=?",
-                    a: ["6", "8", "9", "7"],
+
+                    q: {
+                        ku: "2+2 چەندە؟",
+                        en: "What is 2+2?"
+                    },
+
+                    a: {
+                        ku: ["3", "4", "5", "6"],
+                        en: ["3", "4", "5", "6"]
+                    },
+
                     c: 1
+
                 }, {
-                    q: "10-4=?",
-                    a: ["5", "8", "7", "6"],
-                    c: 3
+
+                    q: {
+                        ku: "5+3 چەندە؟",
+                        en: "What is 5+3?"
+                    },
+
+                    a: {
+                        ku: ["7", "10", "9", "8"],
+                        en: ["7", "10", "9", "8"]
+                    },
+
+                    c: 3,
                 }, {
-                    q: "7+1=?",
-                    a: ["8", "7", "9", "6"],
-                    c: 0
-                }, {
-                    q: "9-2=?",
-                    a: ["6", "7", "8", "5"],
-                    c: 1
-                }, {
-                    q: "6+3=?",
-                    a: ["8", "10", "9", "7"],
+
+                    q: {
+                        ku: "8+4 چەندە؟",
+                        en: "What is 8+4?"
+                    },
+
+                    a: {
+                        ku: ["11", "13", "12", "14"],
+                        en: ["11", "13", "12", "14"]
+                    },
                     c: 2
+
                 }, {
-                    q: "3+3=?",
-                    a: ["5", "8", "7", "6"],
-                    c: 3
-                }, {
-                    q: "8-3=?",
-                    a: ["5", "4", "6", "7"],
-                    c: 0
+
+                    q: {
+
+                        ku: "10-6 چەندە؟",
+                        en: "What is 10-6?"
+                    },
+                    a: {
+                        ku: ["4", "3", "5", "6"],
+                        en: ["4", "3", "5", "6"]
+                    },
+                    c: 0,
+
+
                 }],
 
                 medium: [{
-                    q: "12*3=?",
-                    a: ["36", "32", "30", "34"],
+
+                    q: {
+                        ku: "12×3 چەندە؟",
+                        en: "What is 12×3?"
+                    },
+
+                    a: {
+                        ku: ["36", "30", "40", "42"],
+                        en: ["36", "30", "40", "42"]
+                    },
+
                     c: 0
                 }, {
-                    q: "50-18=?",
-                    a: ["34", "30", "32", "36"],
-                    c: 2
-                }, {
-                    q: "20*4=?",
-                    a: ["60", "80", "90", "70"],
+                    q: {
+                        ku: "15÷3 چەندە؟",
+                        en: "What is 15÷3?"
+                    },
+
+                    a: {
+                        ku: ["4", "5", "6", "3"],
+                        en: ["4", "5", "6", "3"]
+                    },
+
                     c: 1
                 }, {
-                    q: "100/5=?",
-                    a: ["30", "15", "25", "20"],
+                    q: {
+                        ku: "9×9 چەندە؟",
+                        en: "What is 9×9?"
+                    },
+
+                    a: {
+                        ku: ["90", "72", "99", "81"],
+                        en: ["90", "72", "99", "81"]
+                    },
+
                     c: 3
                 }, {
-                    q: "15*3=?",
-                    a: ["45", "40", "50", "35"],
-                    c: 0
-                }, {
-                    q: "60/6=?",
-                    a: ["16", "12", "8", "10"],
-                    c: 3
+                    q: {
+                        ku: "20÷4 چەندە؟",
+                        en: "What is 20÷4?"
+                    },
+
+                    a: {
+                        ku: ["4", "6", "5", "7"],
+                        en: ["4", "6", "5", "7"]
+                    },
+
+                    c: 2
                 }],
 
                 hard: [{
-                    q: "144/12=?",
-                    a: ["10", "12", "14", "16"],
+
+                    q: {
+                        ku: "16×16 چەندە؟",
+                        en: "What is 16×16?"
+                    },
+
+                    a: {
+                        ku: ["216", "256", "196", "226"],
+                        en: ["216", "256", "196", "226"]
+                    },
+
                     c: 1
+
                 }, {
-                    q: "25*12=?",
-                    a: ["200", "250", "350", "300"],
-                    c: 3
-                }, {
-                    q: "81/9=?",
-                    a: ["9", "8", "11", "7"],
-                    c: 0
-                }, {
-                    q: "16*16=?",
-                    a: ["216", "256", "196", "226"],
+
+                    q: {
+                        ku: "144÷12 چەندە؟",
+                        en: "What is 144÷12?"
+                    },
+
+                    a: {
+                        ku: ["10", "11", "12", "13"],
+                        en: ["10", "11", "12", "13"]
+                    },
+
                     c: 2
+
                 }, {
-                    q: "200/8=?",
-                    a: ["20", "25", "30", "35"],
-                    c: 1
+
+                    q: {
+                        ku: "25×25 چەندە؟",
+                        en: "What is 25×25?"
+                    },
+
+                    a: {
+                        ku: ["625", "575", "600", "650"],
+                        en: ["625", "575", "600", "650"]
+                    },
+
+                    c: 0
+
+                }, {
+
+                    q: {
+                        ku: "169÷13 چەندە؟",
+                        en: "What is 169÷13?"
+                    },
+
+                    a: {
+                        ku: ["11", "12", "14", "13"],
+                        en: ["11", "12", "14", "13"]
+                    },
+
+                    c: 3
+
                 }]
             },
 
             programming: {
+
                 easy: [{
-                    q: "HTML is for?",
-                    a: ["Web", "Game", "AI", "OS"],
+
+                    q: {
+                        ku: "HTML بۆ چی بەکاردێت؟",
+                        en: "HTML is used for?"
+                    },
+
+                    a: {
+                        ku: ["وێب", "یاری", "AI", "OS"],
+                        en: ["Web", "Game", "AI", "OS"]
+                    },
+
                     c: 0
+
                 }, {
-                    q: "CSS is for?",
-                    a: ["Math", "Logic", "Style", "Data"],
+
+                    q: {
+                        ku: "CSS بۆ چی بەکاردێت؟",
+                        en: "CSS is used for?"
+                    },
+
+                    a: {
+                        ku: ["ژیری دەست کرد", "یاری", "دیزاین", "OS"],
+                        en: ["AI", "Game", "Style", "OS"]
+                    },
                     c: 2
+
                 }, {
-                    q: "JS is?",
-                    a: ["Car", "Food", "Gym", "Language"],
+
+                    q: {
+                        ku: "JavaScript بۆ چی بەکاردێت؟",
+                        en: "JavaScript is used for?"
+                    },
+
+                    a: {
+                        ku: ["یاری", "OS", "AI", "وێب"],
+                        en: ["Game", "OS", "AI", "Web"]
+                    },
+
                     c: 3
                 }, {
-                    q: "Website runs in?",
-                    a: ["CPU", "Browser", "RAM", "ROM"],
+
+                    q: {
+                        ku: "Python بۆ چی بەکاردێت؟",
+                        en: "Python is used for?"
+                    },
+
+                    a: {
+                        ku: ["AI", "OS", "یاری", "وێب"],
+                        en: ["AI", "OS", "Game", "Web"]
+                    },
+
                     c: 1
-                }, {
-                    q: "Frontend means?",
-                    a: ["Design", "Server", "Database", "UI"],
-                    c: 3
+
                 }],
 
                 medium: [{
-                    q: "JS runs in?",
-                    a: ["DVD", "Server", "Printer", "Browser"],
-                    c: 3
-                }, {
-                    q: "PHP is?",
-                    a: ["Backend", "Frontend", "Game", "Cloud"],
+
+                    q: {
+                        ku: "PHP چییە؟",
+                        en: "What is PHP?"
+                    },
+
+                    a: {
+                        ku: ["Backend", "Frontend", "Game", "Cloud"],
+                        en: ["Backend", "Frontend", "Game", "Cloud"]
+                    },
+
                     c: 0
                 }, {
-                    q: "Array starts at?",
-                    a: ["-1", "1", "0", "2"],
+                    q: {
+                        ku: "CSS Flexbox چییە؟",
+                        en: "What is CSS Flexbox?"
+                    },
+
+                    a: {
+                        ku: ["game", "Programming Language", "Layout", "OS"],
+                        en: ["Game", "Programming Language", "Layout", "OS"]
+                    },
+
                     c: 2
+
                 }, {
-                    q: "HTTP is?",
-                    a: ["Program", "Protocol", "Game", "website"],
+                    q: {
+                        ku: "API چییە؟",
+                        en: "What is API?"
+                    },
+
+                    a: {
+                        ku: ["Game", "Interface", "Programming Language", "OS"],
+                        en: ["Game", "Interface", "Programming Language", "OS"]
+                    },
+
                     c: 1
+
+                }, {
+
+                    q: {
+                        ku: "GitHub چییە؟",
+                        en: "What is GitHub?"
+                    },
+
+                    a: {
+                        ku: ["Game", "Programming Language", "OS", "Code Hosting"],
+                        en: ["Game", "Programming Language", "OS", "Code Hosting"]
+                    },
+
+                    c: 3
+
                 }],
 
                 hard: [{
-                    q: "Node.js is?",
-                    a: ["Browser", "Language", "Runtime", "Framework"],
-                    c: 2
-                }, {
-                    q: "API means?",
-                    a: ["Interface", "Game", "OS", "Program"],
-                    c: 0
-                }, {
-                    q: "SQL is for?",
-                    a: ["Game", "Database", "Music", "Design"],
+
+                    q: {
+                        ku: "Node.js چییە؟",
+                        en: "What is Node.js?"
+                    },
+
+                    a: {
+                        ku: ["زمان", "Runtime", "یاری", "OS"],
+                        en: ["Language", "Runtime", "Game", "OS"]
+                    },
+
                     c: 1
+
                 }, {
-                    q: "OOP stands for?",
-                    a: ["object online Programming", "Only One Program", "Open Online Process", "Object Oriented Programming"],
+
+                    q: {
+                        ku: "React چییە؟",
+                        en: "What is React?"
+                    },
+
+                    a: {
+                        ku: ["Library", "Framework", "OS", "Game"],
+                        en: ["Library", "Framework", "OS", "Game"]
+                    },
+
+                    c: 0
+
+                }, {
+
+                    q: {
+                        ku: "Git چییە؟",
+                        en: "What is Git?"
+                    },
+
+                    a: {
+                        ku: ["Game", "Programming Language", "OS", "Version Control"],
+                        en: ["Game", "Programming Language", "OS", "Version Control"]
+                    },
+
                     c: 3
+
+                }, {
+
+                    q: {
+                        ku: "Docker چییە؟",
+                        en: "What is Docker?"
+                    },
+                    a: {
+                        ku: ["Game", "OS", "Cloud", "Programming Language"],
+                        en: ["Game", "OS", "Cloud", "Programming Language"]
+                    },
+                    c: 2
+
+
                 }]
             },
 
             general: {
+
                 easy: [{
-                    q: "Sun is?",
-                    a: ["Star", "Planet", "Moon", "Earth"],
-                    c: 0
+
+                    q: {
+                        ku: "خۆر چییە؟",
+                        en: "What is the Sun?"
+                    },
+
+
+                    a: {
+                        ku: ["ئەستێرە", "گەردوون", "مانگ", "زەوی"],
+                        en: ["Star", "Planet", "Moon", "Earth"]
+                    },
+
+                    c: 0,
                 }, {
-                    q: "Water formula?",
-                    a: ["CO2", "H2O", "O2", "O3"],
+                    q: {
+                        ku: "شێوگی ئاو",
+                        en: "What is Water Formula?"
+                    },
+                    a: {
+                        ku: ["CO2", "H2O", "O2", "NaCl"],
+                        en: ["CO2", "H2O", "O2", "NaCl"]
+                    },
                     c: 1
+
                 }, {
-                    q: "Earth is?",
-                    a: ["Moon", "Star", "Gas", "Planet"],
+
+                    q: {
+                        ku: "زەوی چییە؟",
+                        en: "What is Earth?"
+                    },
+                    a: {
+                        ku: ["ئەستێرە", "خۆر", "مانگ", "هەسارە"],
+                        en: ["Star", "Sun", "Moon", "Planet"]
+                    },
                     c: 3
+
+
+
                 }, {
-                    q: "Sky color?",
-                    a: ["White", "Green", "Blue", "Red"],
-                    c: 2
-                }, {
-                    q: "Fire is?",
-                    a: ["Cold", "Hot", "Ice", "Water"],
-                    c: 1
+
+                    q: {
+                        ku: "ڕەنگی ئاسمان چییە؟",
+                        en: "What is the color of the sky?"
+                    },
+                    a: {
+                        ku: ["شین", "سور", "زەرد", "مۆر"],
+                        en: ["Blue", "Red", "Yellow", "Purple"]
+                    },
+                    c: 0
+
+
+
+
                 }],
 
                 medium: [{
-                    q: "Capital of Iraq?",
-                    a: ["Sulaymaniyah", "Erbil", "Basra", "Baghdad"],
-                    c: 3
-                }, {
-                    q: "Continents?",
-                    a: ["7", "5", "6", "8"],
-                    c: 0
-                }, {
-                    q: "Largest country?",
-                    a: ["UK", "USA", "Russia", "China"],
-                    c: 2
-                }, {
-                    q: "Oxygen symbol?",
-                    a: ["Ox", "O", "Og", "Oy"],
+
+                    q: {
+                        ku: "پایتەختی عێراق چییە؟",
+                        en: "What is the capital of Iraq?"
+                    },
+
+                    a: {
+                        ku: ["هەولێر", "بەغدا", "بەسرە", "موسڵ"],
+                        en: ["Erbil", "Baghdad", "Basra", "Mosul"]
+                    },
+
                     c: 1
+
+                }, {
+
+                    q: {
+                        ku: "کەی ئەمریکا دۆخی خۆی دەستپێکرد؟",
+                        en: "When did the USA declare its independence?"
+                    },
+
+                    a: {
+                        ku: ["1804", "1492", "1620", "1776"],
+                        en: ["1804", "1492", "1620", "1776"]
+                    },
+
+                    c: 3
+
+                }, {
+
+                    q: {
+                        ku: "کەی جیهانەوە بەردەوام بوو؟",
+                        en: "When did World War II end?"
+                    },
+
+                    a: {
+                        ku: ["1945", "1918", "1939", "1965"],
+                        en: ["1945", "1918", "1939", "1965"]
+                    },
+
+                    c: 0
+
+                }, {
+                    q: {
+                        ku: "کەی یاری نێوان ئەڵمان و ئینگلیس لە نێواندا بوو؟",
+                        en: "When was the Battle of Britain?"
+                    },
+
+                    a: {
+                        ku: ["1938", "1916", "1940", "1939"],
+                        en: ["1938", "1916", "1940", "1939"]
+                    },
+
+                    c: 2
+
+
                 }],
 
                 hard: [{
-                    q: "Largest ocean?",
-                    a: ["Arctic", "Pacific", "Indian", "Atlantic"],
+
+                    q: {
+                        ku: "گەورەترین ئۆقیانوس کامەیە؟",
+                        en: "What is the largest ocean?"
+                    },
+
+                    a: {
+                        ku: ["هیندی", "ئارام", "ئەتلەسی", "ئەرکتیکی"],
+                        en: ["Indian", "Pacific", "Atlantic", "Arctic"]
+                    },
+
                     c: 1
+
                 }, {
-                    q: "Heart chambers?",
-                    a: ["4", "2", "6", "8"],
+
+                    q: {
+                        ku: "کەی یاری نێوان ئەڵمان و روس لە نێواندا بوو؟",
+                        en: "When was the Battle of Stalingrad?"
+                    },
+
+                    a: {
+                        ku: ["1942", "1916", "1939", "1945"],
+                        en: ["1942", "1916", "1939", "1945"]
+                    },
+
                     c: 0
+
                 }, {
-                    q: "Fastest animal?",
-                    a: ["Tiger", "Lion", "Horse", "Cheetah"],
+
+                    q: {
+                        ku: "کەی یاری نێوان ئەڵمان و فەڕەنسا لە نێواندا بوو؟",
+                        en: "When was the Battle of Verdun?"
+                    },
+
+                    a: {
+                        ku: ["1918", "1917", "1945", "1916"],
+                        en: ["1918", "1917", "1945", "1916"]
+                    },
+
                     c: 3
+
                 }, {
-                    q: "Speed of light?",
-                    a: ["200,000 km/s", "100,000 km/s", "299,792 km/s", "179,792 km/s"],
+
+                    q: {
+                        ku: "کەی یاری نێوان ئەڵمان و سوڤیەت لە نێواندا بوو؟",
+                        en: "When was the Battle of Kursk?"
+                    },
+
+                    a: {
+                        ku: ["1945", "1941", "1943", "1942"],
+                        en: ["1945", "1941", "1943", "1942"]
+                    },
+
                     c: 2
+
                 }]
             }
+
         };
 
         let diff = "easy";
@@ -409,75 +861,228 @@
         let score = 0;
         let timer;
 
+        function setLang(l) {
+
+            lang = l;
+
+            document.documentElement.lang = l;
+
+            if (l === "ku") {
+                document.documentElement.dir = "rtl";
+            } else {
+                document.documentElement.dir = "ltr";
+            }
+
+            document.getElementById("title")
+                .innerText = text[l].title;
+
+            document.getElementById("catText")
+                .innerText = text[l].category;
+
+            document.getElementById("diffText")
+                .innerText = text[l].difficulty;
+
+            document.getElementById("mathBtn")
+                .innerText = text[l].math;
+
+            document.getElementById("codeBtn")
+                .innerText = text[l].code;
+
+            document.getElementById("generalBtn")
+                .innerText = text[l].general;
+
+            document.getElementById("easyBtn")
+                .innerText = text[l].easy;
+
+            document.getElementById("mediumBtn")
+                .innerText = text[l].medium;
+
+            document.getElementById("hardBtn")
+                .innerText = text[l].hard;
+
+            document.getElementById("resultText")
+                .innerText = text[l].result;
+
+            document.getElementById("againBtn")
+                .innerText = text[l].playAgain;
+
+            localStorage.setItem("lang", l);
+        }
+
         function setDiff(d) {
             diff = d;
         }
 
         function start(cat) {
-            selected = questions[cat][diff];
+
+            selected = [...questions[cat][diff]]
+                .sort(() => Math.random() - 0.5);
+
             i = 0;
             score = 0;
-            document.getElementById("menu").classList.add("hidden");
-            document.getElementById("game").classList.remove("hidden");
-            document.getElementById("score").innerText = 0;
+
+            document.getElementById("menu")
+                .classList.add("hidden");
+
+            document.getElementById("game")
+                .classList.remove("hidden");
+
+            document.getElementById("score")
+                .innerText = score;
+
             show();
         }
 
         function show() {
+
             if (i >= selected.length) {
                 end();
                 return;
             }
 
             let q = selected[i];
-            document.getElementById("question").innerText = q.q;
-            document.getElementById("answers").innerHTML = "";
 
-            q.a.forEach((a, idx) => {
-                let b = document.createElement("button");
-                b.innerText = a;
-                b.onclick = () => check(idx);
-                document.getElementById("answers").appendChild(b);
+            document.getElementById("question")
+                .innerText = q.q[lang];
+
+            document.getElementById("answers")
+                .innerHTML = "";
+
+            q.a[lang].forEach((ans, index) => {
+
+                let btn =
+                    document.createElement("button");
+
+                btn.innerText = ans;
+
+                btn.onclick = () => check(index);
+
+                document.getElementById("answers")
+                    .appendChild(btn);
+
             });
 
             startTimer();
+
             updateBar();
         }
 
         function startTimer() {
+
             let s = 10;
-            document.getElementById("timer").innerText = s;
+
+            document.getElementById("timer")
+                .innerText = s;
 
             clearInterval(timer);
+
             timer = setInterval(() => {
+
                 s--;
-                document.getElementById("timer").innerText = s;
+
+                document.getElementById("timer")
+                    .innerText = s;
+
+                if (s <= 5) {
+
+                    document.getElementById("timer")
+                        .style.color = "var(--red)";
+
+                } else {
+
+                    document.getElementById("timer")
+                        .style.color = "white";
+                }
+
                 if (s <= 0) {
+
                     clearInterval(timer);
+
                     i++;
+
                     show();
                 }
+
             }, 1000);
         }
 
         function check(x) {
+
             clearInterval(timer);
-            if (x === selected[i].c) score++;
-            document.getElementById("score").innerText = score;
-            i++;
-            show();
+
+            let buttons =
+                document.querySelectorAll("#answers button");
+
+            buttons.forEach((btn, index) => {
+
+                if (index === selected[i].c) {
+                    btn.style.background = "green";
+                }
+
+                if (index === x &&
+                    x !== selected[i].c) {
+
+                    btn.style.background = "red";
+                }
+
+                btn.disabled = true;
+            });
+
+            if (x === selected[i].c) {
+                score++;
+            }
+
+            document.getElementById("score")
+                .innerText = score;
+
+            setTimeout(() => {
+
+                i++;
+
+                show();
+
+            }, 1000);
         }
 
         function updateBar() {
-            document.getElementById("bar").style.width =
+
+            document.getElementById("bar")
+                .style.width =
                 (i / selected.length) * 100 + "%";
         }
 
         function end() {
-            document.getElementById("game").classList.add("hidden");
-            document.getElementById("result").classList.remove("hidden");
-            document.getElementById("final").innerText =
-                score + " / " + selected.length;
+
+            document.getElementById("game")
+                .classList.add("hidden");
+
+            document.getElementById("result")
+                .classList.remove("hidden");
+
+            let best =
+                localStorage.getItem("best") || 0;
+
+            if (score > best) {
+
+                localStorage.setItem("best", score);
+
+                best = score;
+            }
+
+            document.getElementById("final")
+                .innerHTML =
+                `
+                ⭐ ${score} / ${selected.length}
+                <br><br>
+                🏆 Best Score: ${best}
+                `;
+        }
+
+        let savedLang =
+            localStorage.getItem("lang");
+
+        if (savedLang) {
+            setLang(savedLang);
         }
     </script>
 
