@@ -202,6 +202,45 @@
                 font-size: 13px;
             }
         }
+        
+        .theme-switch {
+            margin-top: 15px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .light-mode {
+            background: linear-gradient(-45deg, #f1f5f9, #dbeafe, #ede9fe, #ffffff);
+            color: #111827;
+        }
+        
+        .light-mode .app {
+            background: rgba(255, 255, 255, .7);
+            border: 1px solid rgba(0, 0, 0, .08);
+            color: #111827;
+        }
+        
+        .light-mode .card {
+            background: rgba(255, 255, 255, .65);
+            border: 1px solid rgba(0, 0, 0, .08);
+        }
+        
+        .light-mode button {
+            background: linear-gradient(135deg, #60a5fa, #2563eb);
+            color: white;
+        }
+        
+        .light-mode .progress {
+            background: #d1d5db;
+        }
+        
+        .light-mode #question {
+            color: #111827;
+        }
+        
+        .light-mode .footer {
+            color: #111827;
+        }
     </style>
 </head>
 
@@ -219,7 +258,11 @@
                 <button onclick="setLang('ku')">🇹🇯 کوردی</button>
                 <button onclick="setLang('en')">🇺🇸 English</button>
             </div>
-
+            <div class="theme-switch">
+                <button onclick="toggleTheme()" id="themeBtn">
+        🌙 Dark Mode
+    </button>
+            </div>
         </header>
 
         <div id="menu" class="card">
@@ -561,7 +604,7 @@
                         en: ["AI", "OS", "Game", "Web"]
                     },
 
-                    c: 1
+                    c: 0
 
                 }],
 
@@ -1083,6 +1126,38 @@
 
         if (savedLang) {
             setLang(savedLang);
+        }
+
+        function toggleTheme() {
+
+            document.body.classList.toggle("light-mode");
+
+            let btn =
+                document.getElementById("themeBtn");
+
+            if (document.body.classList.contains("light-mode")) {
+
+                btn.innerText = "☀ Light Mode";
+
+                localStorage.setItem("theme", "light");
+
+            } else {
+
+                btn.innerText = "🌙 Dark Mode";
+
+                localStorage.setItem("theme", "dark");
+            }
+        }
+
+        let savedTheme =
+            localStorage.getItem("theme");
+
+        if (savedTheme === "light") {
+
+            document.body.classList.add("light-mode");
+
+            document.getElementById("themeBtn")
+                .innerText = "☀ Light Mode";
         }
     </script>
 
