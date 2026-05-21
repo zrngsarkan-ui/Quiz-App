@@ -227,7 +227,7 @@
         
         .light-mode button {
             background: linear-gradient(135deg, #60a5fa, #2563eb);
-            color: white;
+            color: rgb(245, 0, 0);
         }
         
         .light-mode .progress {
@@ -299,67 +299,8 @@
         .light-mode .footer {
             color: #0f172a;
             opacity: .8;
+            /* ✨ Neon Dark Mode */
         }
-        /* 🧊 Glass Light Mode */
-        
-        .light-mode {
-            background: linear-gradient( -45deg, #f8fafc, #dbeafe, #ede9fe, #ffffff);
-            background-size: 400% 400%;
-            animation: bg 12s ease infinite;
-            color: #111827;
-        }
-        /* APP GLASS */
-        
-        .light-mode .app {
-            background: rgba(255, 255, 255, .35);
-            border: 1px solid rgba(255, 255, 255, .45);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, .12);
-            color: #111827;
-        }
-        /* CARD GLASS */
-        
-        .light-mode .card {
-            background: rgba(255, 255, 255, .28);
-            border: 1px solid rgba(255, 255, 255, .35);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, .08);
-        }
-        /* BUTTON GLASS */
-        
-        .light-mode button {
-            background: linear-gradient( 135deg, rgba(96, 165, 250, .85), rgba(37, 99, 235, .9));
-            border: 1px solid rgba(255, 255, 255, .25);
-            box-shadow: 0 4px 18px rgba(59, 130, 246, .18);
-            color: white;
-        }
-        /* BUTTON HOVER */
-        
-        .light-mode button:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 10px 24px rgba(59, 130, 246, .25);
-        }
-        /* QUESTION */
-        
-        .light-mode #question {
-            color: #0f172a;
-        }
-        /* PROGRESS */
-        
-        .light-mode .progress,
-        .light-mode .timer-wrap {
-            background: rgba(255, 255, 255, .45);
-            border: 1px solid rgba(255, 255, 255, .25);
-        }
-        /* FOOTER */
-        
-        .light-mode .footer {
-            color: #0f172a;
-            opacity: .8;
-        }
-        /* ✨ Neon Dark Mode */
         
         body {
             background: linear-gradient( -45deg, #020617, #0f172a, #1e1b4b, #111827);
@@ -429,7 +370,7 @@
         
         .progress,
         .timer-wrap {
-            background: rgba(255, 255, 255, .08);
+            background: rgba(0, 0, 0, 0.08);
             border: 1px solid rgba(59, 130, 246, .18);
         }
         /* PROGRESS BAR */
@@ -451,15 +392,53 @@
             opacity: .85;
             text-shadow: 0 0 10px rgba(255, 255, 255, .2);
         }
-        /* 🎵 Smooth Theme Animation */
         
-        body,
-        .app,
-        .card,
-        button,
-        .progress,
-        .timer-wrap {
-            transition: background .4s ease, color .4s ease, border .4s ease, box-shadow .4s ease, transform .3s ease;
+        .light-mode #timer {
+            color: #111827 !important;
+            text-shadow: none;
+        }
+        
+        #score {
+            padding: 6px 14px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+            box-shadow: 0 0 12px rgba(59, 130, 246, .5);
+            font-weight: 900;
+        }
+        
+        #result {
+            text-align: center;
+            animation: pop .6s ease;
+        }
+        
+        @keyframes pop {
+            from {
+                transform: scale(.7);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        
+        #final {
+            font-size: 18px;
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, .06);
+            border: 1px solid rgba(255, 255, 255, .15);
+            box-shadow: 0 0 20px rgba(59, 130, 246, .2);
+        }
+        
+        #confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
         }
     </style>
 </head>
@@ -547,11 +526,17 @@
 
         <div id="result" class="card hidden">
 
+
             <h2 id="resultText">🏆 ئەنجام</h2>
 
+
             <p id="final"></p>
+            <p id="bestScore"></p>
 
             <button id="againBtn" onclick="location.reload()">
+               
+    ...
+   
 
                 🔄 دووبارە یاری بکە
 
@@ -564,15 +549,7 @@
         </div>
 
     </div>
-    <!-- 🎵 Theme Sounds -->
-
-    <audio id="darkSound">
-    <source src="dark.mp3" type="audio/mpeg">
-</audio>
-
-    <audio id="lightSound">
-    <source src="light.mp3" type="audio/mpeg">
-</audio>
+    <canvas id="confetti"></canvas>
     <script>
         let lang = "ku";
 
@@ -589,6 +566,7 @@
                 medium: "🟡 مامناوەند",
                 hard: "🔴 سەخت",
                 result: "🏆 ئەنجام",
+                bestScore: "🏆 باشترین سکۆر",
                 playAgain: "🔄 دووبارە یاری بکە"
             },
 
@@ -603,6 +581,7 @@
                 medium: "🟡 Medium",
                 hard: "🔴 Hard",
                 result: "🏆 Result",
+                bestScore: "🏆 Best Score",
                 playAgain: "🔄 Play Again"
             }
 
@@ -1216,6 +1195,7 @@
             document.getElementById("question")
                 .innerText = q.q[lang];
 
+
             document.getElementById("answers")
                 .innerHTML = "";
 
@@ -1322,6 +1302,47 @@
                 (i / selected.length) * 100 + "%";
         }
 
+        function confetti() {
+            const canvas = document.getElementById("confetti");
+            const ctx = canvas.getContext("2d");
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            let pieces = [];
+
+            for (let i = 0; i < 120; i++) {
+                pieces.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    r: Math.random() * 6 + 2,
+                    d: Math.random() * 50,
+                    color: `hsl(${Math.random()*360},100%,60%)`
+                });
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                pieces.forEach(p => {
+                    ctx.beginPath();
+                    ctx.fillStyle = p.color;
+                    ctx.fillRect(p.x, p.y, p.r, p.r);
+
+                    p.y += 2 + p.d * 0.05;
+
+                    if (p.y > canvas.height) {
+                        p.y = -10;
+                        p.x = Math.random() * canvas.width;
+                    }
+                });
+
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        }
+
         function end() {
 
             document.getElementById("game")
@@ -1333,6 +1354,8 @@
             let best =
                 localStorage.getItem("best") || 0;
 
+
+
             if (score > best) {
 
                 localStorage.setItem("best", score);
@@ -1340,13 +1363,13 @@
                 best = score;
             }
 
-            document.getElementById("final")
-                .innerHTML =
-                `
-                ⭐ ${score} / ${selected.length}
-                <br><br>
-                🏆 Best Score: ${best}
-                `;
+            document.getElementById("final").innerHTML = `
+    ⭐ ${score} / ${selected.length}
+    <br><br>
+    ${text[lang].bestScore}: ${best}
+`;
+
+            confetti();
         }
 
         let savedLang =
@@ -1354,6 +1377,7 @@
 
         if (savedLang) {
             setLang(savedLang);
+
         }
 
         function toggleTheme() {
@@ -1386,53 +1410,6 @@
 
             document.getElementById("themeBtn")
                 .innerText = "☀ Light Mode";
-        }
-
-        // 🎵 Theme Toggle + Sound
-
-        function toggleTheme() {
-
-            document.body.classList
-                .toggle("light-mode");
-
-            let btn =
-                document.getElementById("themeBtn");
-
-            let darkSound =
-                document.getElementById("darkSound");
-
-            let lightSound =
-                document.getElementById("lightSound");
-
-            if (document.body.classList
-                .contains("light-mode")) {
-
-                btn.innerText =
-                    "☀ Light Mode";
-
-                localStorage.setItem(
-                    "theme",
-                    "light"
-                );
-
-                lightSound.currentTime = 0;
-
-                lightSound.play();
-
-            } else {
-
-                btn.innerText =
-                    "🌙 Dark Mode";
-
-                localStorage.setItem(
-                    "theme",
-                    "dark"
-                );
-
-                darkSound.currentTime = 0;
-
-                darkSound.play();
-            }
         }
     </script>
 
