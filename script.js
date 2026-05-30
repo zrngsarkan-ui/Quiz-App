@@ -1,40 +1,132 @@
 const questions = {
+
     math: {
-        easy: [
-            { q: "2+2=?", a: ["3", "6", "5s", "4"], c: 2 },
-            { q: "5+3=?", a: ["6", "8", "9"], c: 1 }
-        ],
-        medium: [
-            { q: "12*3=?", a: ["36", "32", "30"], c: 0 }
-        ],
-        hard: [
-            { q: "144/12=?", a: ["10", "12", "14"], c: 1 }
-        ]
+
+        easy: [{
+            q: {
+                ku: "2+2 چەندە؟",
+                en: "What is 2+2?"
+            },
+            a: {
+                ku: ["3", "4", "5", "6"],
+                en: ["3", "4", "5", "6"]
+            },
+            c: 1
+        }, {
+            q: {
+                ku: "5+3 چەندە؟",
+                en: "What is 5+3?"
+            },
+            a: {
+                ku: ["7", "8", "9", "10"],
+                en: ["7", "8", "9", "10"]
+            },
+            c: 1
+        }],
+
+        medium: [{
+            q: {
+                ku: "12×3 چەندە؟",
+                en: "What is 12×3?"
+            },
+            a: {
+                ku: ["36", "30", "40", "42"],
+                en: ["36", "30", "40", "42"]
+            },
+            c: 0
+        }],
+
+        hard: [{
+            q: {
+                ku: "16×16 چەندە؟",
+                en: "What is 16×16?"
+            },
+            a: {
+                ku: ["216", "256", "196", "226"],
+                en: ["216", "256", "196", "226"]
+            },
+            c: 1
+        }]
     },
+
     programming: {
-        easy: [
-            { q: "HTML is?", a: ["Web", "Game", "AI"], c: 0 }
-        ],
-        medium: [
-            { q: "JS runs in?", a: ["Browser", "Server", "Printer"], c: 0 }
-        ],
-        hard: [
-            { q: "Node.js is?", a: ["Runtime", "Language", "Browser"], c: 0 }
-        ]
+
+        easy: [{
+            q: {
+                ku: "HTML بۆ چی بەکاردێت؟",
+                en: "HTML is used for?"
+            },
+            a: {
+                ku: ["وێب", "یاری", "AI", "OS"],
+                en: ["Web", "Game", "AI", "OS"]
+            },
+            c: 0
+        }],
+
+        medium: [{
+            q: {
+                ku: "PHP چییە؟",
+                en: "What is PHP?"
+            },
+            a: {
+                ku: ["Backend", "Frontend", "Game", "Cloud"],
+                en: ["Backend", "Frontend", "Game", "Cloud"]
+            },
+            c: 0
+        }],
+
+        hard: [{
+            q: {
+                ku: "Node.js چییە؟",
+                en: "What is Node.js?"
+            },
+            a: {
+                ku: ["زمان", "Runtime", "یاری", "OS"],
+                en: ["Language", "Runtime", "Game", "OS"]
+            },
+            c: 1
+        }]
     },
+
     general: {
-        easy: [
-            { q: "Sun is?", a: ["Star", "Planet", "Moon"], c: 0 }
-        ],
-        medium: [
-            { q: "Capital of Iraq?", a: ["Baghdad", "Erbil", "Basra"], c: 0 }
-        ],
-        hard: [
-            { q: "Largest ocean?", a: ["Pacific", "Atlantic", "Indian"], c: 0 }
-        ]
+
+        easy: [{
+            q: {
+                ku: "خۆر چییە؟",
+                en: "What is the Sun?"
+            },
+            a: {
+                ku: ["ئەستێرە", "گەردوون", "مانگ", "زەوی"],
+                en: ["Star", "Planet", "Moon", "Earth"]
+            },
+            c: 0
+        }],
+
+        medium: [{
+            q: {
+                ku: "پایتەختی عێراق چییە؟",
+                en: "What is the capital of Iraq?"
+            },
+            a: {
+                ku: ["هەولێر", "بەغدا", "بەسرە", "موسڵ"],
+                en: ["Erbil", "Baghdad", "Basra", "Mosul"]
+            },
+            c: 1
+        }],
+
+        hard: [{
+            q: {
+                ku: "گەورەترین ئۆقیانوس کامەیە؟",
+                en: "What is the largest ocean?"
+            },
+            a: {
+                ku: ["هیندی", "ئارام", "ئەتلەسی", "ئەرکتیکی"],
+                en: ["Indian", "Pacific", "Atlantic", "Arctic"]
+            },
+            c: 1
+        }]
     }
 };
-
 let diff = "easy";
 let selected = [];
 let i = 0;
@@ -61,8 +153,6 @@ function start(cat) {
 
 function show() {
 
-    clearInterval(timer);
-
     if (i >= selected.length) {
         end();
         return;
@@ -70,17 +160,26 @@ function show() {
 
     let q = selected[i];
 
-    document.getElementById("question").innerText = q.q;
-    document.getElementById("answers").innerHTML = "";
+    document.getElementById("question")
+        .innerText = q.q[lang];
 
-    q.a.forEach((a, idx) => {
-        let b = document.createElement("button");
-        b.innerText = a;
-        b.onclick = () => check(idx);
-        document.getElementById("answers").appendChild(b);
+    document.getElementById("answers")
+        .innerHTML = "";
+
+    q.a[lang].forEach((ans, index) => {
+
+        let btn = document.createElement("button");
+
+        btn.innerText = ans;
+
+        btn.onclick = () => check(index);
+
+        document.getElementById("answers")
+            .appendChild(btn);
     });
 
     startTimer();
+
     updateBar();
 }
 

@@ -5,6 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yari Prisar u Walam</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2563eb">
+
+
+
+    <meta name="theme-color" content="#2563eb">
+
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="apple-touch-icon" href="icon-192.png">
 
     <style>
          :root {
@@ -440,8 +454,34 @@
             height: 100%;
             pointer-events: none;
         }
+        
+        .question-card {
+            transition: all 0.3s ease-in-out;
+        }
+        
+        .hidden {
+            display: none;
+            opacity: 0;
+        }
+        
+        .question-card {
+            animation: slideIn .4s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
+
 </head>
+<canvas id="confetti"></canvas>
 
 <body>
 
@@ -457,6 +497,11 @@
                 <button onclick="setLang('ku')">🇹🇯 کوردی</button>
                 <button onclick="setLang('en')">🇺🇸 English</button>
             </div>
+
+            <button id="installBtn" style="display:none;">
+📲 Install App
+</button>
+
             <div class="theme-switch">
                 <button onclick="toggleTheme()" id="themeBtn">
         🌙 Dark Mode
@@ -502,6 +547,8 @@
 
         <div id="game" class="card hidden">
 
+
+
             <div class="top">
 
                 <div>
@@ -512,6 +559,9 @@
                     ⭐ <span id="score">0</span>
                 </div>
 
+            </div>
+            <div class="progress timer-wrap">
+                <div class="bar" id="timerBar"></div>
             </div>
 
             <div class="progress">
@@ -549,7 +599,7 @@
         </div>
 
     </div>
-    <canvas id="confetti"></canvas>
+
     <script>
         let lang = "ku";
 
@@ -1165,8 +1215,16 @@
 
         function start(cat) {
 
-            selected = [...questions[cat][diff]]
-                .sort(() => Math.random() - 0.5);
+
+
+            function shuffle(arr) {
+                for (let i = arr.length - 1; i > 0; i--) {
+                    let j = Math.floor(Math.random() * (i + 1));
+                    [arr[i], arr[j]] = [arr[j], arr[i]];
+                }
+                return arr;
+            }
+            selected = shuffle([...questions[cat][diff]]);
 
             i = 0;
             score = 0;
@@ -1216,46 +1274,43 @@
             startTimer();
 
             updateBar();
+
+            let qEl = document.getElementById("question");
+
+            qEl.classList.remove("question-card");
+
+            void qEl.offsetWidth;
+
+            qEl.classList.add("question-card");
         }
 
         function startTimer() {
 
             let s = 10;
+            let width = 100;
 
-            document.getElementById("timer")
-                .innerText = s;
+            document.getElementById("timer").innerText = s;
+            document.getElementById("timerBar").style.width = "100%";
 
             clearInterval(timer);
 
             timer = setInterval(() => {
 
                 s--;
+                width -= 10;
 
-                document.getElementById("timer")
-                    .innerText = s;
-
-                if (s <= 5) {
-
-                    document.getElementById("timer")
-                        .style.color = "var(--red)";
-
-                } else {
-
-                    document.getElementById("timer")
-                        .style.color = "white";
-                }
+                document.getElementById("timer").innerText = s;
+                document.getElementById("timerBar").style.width = width + "%";
 
                 if (s <= 0) {
-
                     clearInterval(timer);
-
                     i++;
-
                     show();
                 }
 
             }, 1000);
         }
+
 
         function check(x) {
 
@@ -1322,10 +1377,11 @@
             }
 
             function draw() {
+
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
 
                 pieces.forEach(p => {
-                    ctx.beginPath();
+
                     ctx.fillStyle = p.color;
                     ctx.fillRect(p.x, p.y, p.r, p.r);
 
@@ -1410,6 +1466,73 @@
 
             document.getElementById("themeBtn")
                 .innerText = "☀ Light Mode";
+        }
+
+        let highScore = localStorage.getItem("highScore") || 0;
+
+        if (score > highScore) {
+            localStorage.setItem("highScore", score);
+        }
+
+
+        document.getElementById("question")
+            .classList.remove("question-card");
+
+        void document.getElementById("question")
+            .offsetWidth;
+
+
+        let deferredPrompt;
+
+        window.addEventListener("beforeinstallprompt", e => {
+
+            e.preventDefault();
+
+            deferredPrompt = e;
+
+            document.getElementById("installBtn")
+                .style.display = "block";
+        });
+
+        document.getElementById("installBtn")
+            .addEventListener("click", async() => {
+
+                if (!deferredPrompt) return;
+
+                deferredPrompt.prompt();
+
+                await deferredPrompt.userChoice;
+
+                deferredPrompt = null;
+            });
+
+
+        if ("Notification" in window) {
+
+            Notification.requestPermission()
+                .then(permission => {
+
+                    if (permission === "granted") {
+
+                        new Notification(
+                            "🎮 Quiz Pro", {
+                                body: "بەخێربێیت بۆ یارییەکە!"
+                            }
+                        );
+                    }
+                });
+        }
+
+
+
+
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker
+                    .register("./sw.js")
+                    .then(reg => console.log("SW Registered"))
+                    .catch(err => console.log(err));
+            });
         }
     </script>
 
