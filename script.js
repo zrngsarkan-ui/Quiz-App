@@ -984,24 +984,6 @@ if (score >= 3) {
 }
 
 
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-});
-
-// ٢. فەرمانی دامەزراندن (Install App)
-async function installApp() {
-    if (deferredPrompt) {
-        deferredPrompt.prompt();
-        const { outcome } = await deferredPrompt.userChoice;
-        if (outcome === 'accepted') {
-            console.log('User accepted the install prompt');
-        }
-        deferredPrompt = null;
-    } else {
-        alert("ئەم ئەپە یان پێشتر دامەزراوە یان وێبگەڕەکەت پشتیوانی ناکات.");
-    }
-}
 
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
